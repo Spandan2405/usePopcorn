@@ -8,9 +8,9 @@ export function MovieDetails({
   onAddWatched,
   watched,
 }) {
-  const [movie, setMovie] = useState({});               // Movie details    
-  const [isLoading, setIsLoading] = useState(false);    // Loading msg
-  const [userRating, setUserRating] = useState("");     // rating given by user
+  const [movie, setMovie] = useState({}); // Movie details
+  const [isLoading, setIsLoading] = useState(false); // Loading msg
+  const [userRating, setUserRating] = useState(""); // rating given by user
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId); // movie id === selectedId
   const watchedUserRating = watched.find(
@@ -30,7 +30,8 @@ export function MovieDetails({
     Genre: genre,
   } = movie; // destructuring data from api
 
-  function handleAdd() {          // Adds new movie{} to watched []
+  function handleAdd() {
+    // Adds new movie{} to watched []
     const newWatchedMovie = {
       imdbID: selectedId,
       userRating,
@@ -45,12 +46,13 @@ export function MovieDetails({
     onCloseMovie();
   }
 
-  useEffect(        // fetches movie details 
+  useEffect(
+    // fetches movie details
     function () {
       async function getMovieDetails() {
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=eb2a15fc&i=${selectedId}`
+          `https://www.omdbapi.com/?apikey=eb2a15fc&i=${selectedId}`
         );
         const data = await res.json();
         // console.log(data);
@@ -60,8 +62,9 @@ export function MovieDetails({
       getMovieDetails();
     },
     [selectedId]
-  );  
-  useEffect(      // Escape from movie detail page when esc is pressed 
+  );
+  useEffect(
+    // Escape from movie detail page when esc is pressed
     function () {
       function callback(e) {
         if (e.code === "Escape") {
@@ -77,7 +80,8 @@ export function MovieDetails({
     },
     [onCloseMovie]
   );
-  useEffect(        // Sets the title of the browser's tab
+  useEffect(
+    // Sets the title of the browser's tab
     function () {
       if (!title) return;
       document.title = `Movie | ${title}`;
@@ -129,11 +133,11 @@ export function MovieDetails({
                       </button>
                     )}
                   </>
-                  ) : (
-                    <p> You have rated this movie {watchedUserRating} ⭐</p>
+                ) : (
+                  <p> You have rated this movie {watchedUserRating} ⭐</p>
                 )}
               </div>
-              
+
               <p>
                 <em>{plot}</em>
               </p>
